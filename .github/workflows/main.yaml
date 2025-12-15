@@ -1,0 +1,84 @@
+name: Build, Test and Publish
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+    - main
+    - feat/*
+    - hotfix/*
+  pull_request:
+    branches:
+    - main
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+env:
+  GH_PACKAGE_USERNAME: '${{ secrets.GH_PACKAGE_USERNAME }}'
+  GH_PACKAGE_TOKEN: '${{ secrets.GH_PACKAGE_TOKEN }}'
+
+jobs:
+  build_and_test:
+    name: Build and test packages
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v6
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: '10.x'
+
+    - name: Restore NuGet packages
+      shell: bash
+      run: |
+        dotnet restore
+
+    - name: Build solution
+      shell: bash
+      run: |
+        dotnet build -c Release
+
+    - name: Run unit tests
+      shell: bash
+      run: |
+        dotnet test -c Release --no-build --verbosity normal
+
+    - name: Publish artifact
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      shell: bash
+      run: |
+        dotnet run --project ./src/ScissorHands.App -- --build
+
+    - name: Upload artifact for web
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      uses: actions/upload-pages-artifact@v4
+      with:
+        path: ./src/ScissorHands.App/dist
+
+  publish:
+    name: Publish preview site
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs:
+    - build_and_test
+
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4

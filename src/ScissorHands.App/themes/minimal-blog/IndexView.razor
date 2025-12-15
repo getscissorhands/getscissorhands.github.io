@@ -1,0 +1,14 @@
+@inherits ScissorHands.Theme.IndexViewBase
+@layout MainLayout
+
+<section class="home">
+    <header class="home hero">
+        <h1 class="home title">@((MarkupString)Site!.Title) <span class="home subtitle">| @((MarkupString)Site!.Description)</span></h1>
+    </header>
+    <div class="home list">
+        @foreach (var post in Documents)
+        {
+            <PostCard Post="@post" MaxDescriptionLength="150" />
+        }
+    </div>
+</section>
