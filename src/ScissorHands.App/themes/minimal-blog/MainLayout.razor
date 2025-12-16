@@ -3,6 +3,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <plugin:google-analytics />
+
     <base href="@Site!.BaseUrl" />
 
     <meta charset="utf-8" />
@@ -58,7 +60,5 @@
             <script src="@($"/themes/{Theme!.Slug.TrimEnd('/')}{script}")"></script>
         }
     }
-
-    <plugin:google-analytics />
 </body>
 </html>
