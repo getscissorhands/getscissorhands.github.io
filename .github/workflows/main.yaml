@@ -16,6 +16,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  GA_MEASUREMENT_ID: '${{ secrets.GA_MEASUREMENT_ID }}'
   GH_PACKAGE_USERNAME: '${{ secrets.GH_PACKAGE_USERNAME }}'
   GH_PACKAGE_TOKEN: '${{ secrets.GH_PACKAGE_TOKEN }}'
 
@@ -33,6 +34,20 @@ jobs:
       uses: actions/setup-dotnet@v5
       with:
         dotnet-version: '10.x'
+  
+    - name: Update Google Analytics ID
+      shell: pwsh
+      run: |
+        $appSettings = Get-Content -Path ./src/ScissorHands.App/appsettings.json | ConvertFrom-Json
+        $plugins = $appSettings.Plugins
+        $plugins | ForEach-Object {
+          $plugin = $_
+          if ($plugin.Name -eq "Google Analytics") {
+            $plugin.Options.MeasurementId = "${{ env.GA_MEASUREMENT_ID }}"
+          }
+        }
+        $appSettings.Plugins = $plugins
+        $appSettings | ConvertTo-Json -Depth 100 | Set-Content -Path ./src/ScissorHands.App/appsettings.json
 
     - name: Restore NuGet packages
       shell: bash
