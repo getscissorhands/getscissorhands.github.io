@@ -5,6 +5,10 @@
         <a href="/" class="site-title" title="@Site!.Title">
             <h1><img src="@($"/themes/{Theme!.Slug.TrimEnd('/')}/assets/images/icon.svg")" alt="ScissorHands icon" width="20" height="20" /> @Site!.Title</h1>
         </a>
+        <nav class="site-nav" aria-label="Main">
+            <a class="site-nav-link" href="/about">About</a>
+            <a class="site-nav-link" href="/docs">Docs</a>
+        </nav>
         <div class="header-actions">
             <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
                 <img src="@($"/themes/{Theme!.Slug.TrimEnd('/')}/assets/images/sun-icon.svg")" alt="Light mode" class="sun-icon" width="24" height="24" />
