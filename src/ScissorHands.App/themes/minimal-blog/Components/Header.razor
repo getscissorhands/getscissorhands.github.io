@@ -2,8 +2,8 @@
 
 <header class="site-header">
     <div class="site-header inner">
-        <a href="/" class="site-title" title="@((MarkupString)Site!.Title)">
-            <h1>@((MarkupString)Site!.Title)</h1>
+        <a href="/" class="site-title" title="@Site!.Title">
+            <h1><img src="@($"/themes/{Theme!.Slug.TrimEnd('/')}/assets/images/icon.svg")" alt="ScissorHands icon" width="20" height="20" /> @Site!.Title</h1>
         </a>
         <div class="header-actions">
             <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Toggle dark mode">

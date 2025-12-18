@@ -3,12 +3,37 @@
 
 <section class="home">
     <header class="home hero">
-        <h1 class="home title">@((MarkupString)Site!.Title) <span class="home subtitle">| @((MarkupString)Site!.Description)</span></h1>
+        <h1 class="home title">@((MarkupString)Site!.Title) <span class="home subtitle">| @Site!.DescriptionInHtml</span></h1>
     </header>
-    <div class="home list">
-        @foreach (var post in Documents)
+    <div class="home list tiles">
+        @foreach (var tile in Tiles)
         {
-            <PostCard Post="@post" MaxDescriptionLength="150" />
+            <a class="tile-card" href="@tile.Link">
+                <div class="tile-body">
+                    <h2 class="tile-title">
+                        <span class="tile-icon-wrap" aria-hidden="true">
+                            <span class="tile-icon @tile.Icon"></span>
+                        </span>
+                        <span class="tile-title-text">@tile.Title</span>
+                    </h2>
+                    <p class="tile-desc">@tile.Description</p>
+                    <span class="tile-link">Learn more →</span>
+                </div>
+            </a>
         }
     </div>
 </section>
+
+@code {
+    private sealed record Tile(string Title, string Link, string Description, string Icon);
+
+    private static readonly Tile[] Tiles =
+    [
+        new("Setup", "/docs/setup", "Set up your development environment.", "fa-solid fa-screwdriver-wrench"),
+        new("Quickstart", "/docs/quickstart", "Generate a site in minutes.", "fa-solid fa-rocket"),
+        new("Configuration", "/docs/configuration", "Tune your site options.", "fa-solid fa-sliders"),
+        new("Publish", "/docs/publish", "Deploy to your preferred host.", "fa-solid fa-cloud-arrow-up"),
+        new("Themes", "/docs/themes", "Pick, customize, or build a look.", "fa-solid fa-palette"),
+        new("Plugins", "/docs/plugins", "Extend the stack with add-ons.", "fa-solid fa-plug"),
+    ];
+}

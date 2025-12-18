@@ -31,11 +31,11 @@
     <link rel="icon" type="image/png" sizes="96x96" href="@($"/themes/{Theme!.Slug.TrimEnd('/')}/favicon-96x96.png")">
     <link rel="manifest" href="@($"/themes/{Theme!.Slug.TrimEnd('/')}/manifest.json")">
 
-    <meta name="generator" content="ScissorHands.NET v1.0.0" />
+    <meta name="generator" content="@Site!.Generator" />
 
     <title>@((MarkupString)Site!.Title)</title>
-    <meta name="title" content="@((MarkupString)Site!.Title)" />
-    <meta name="description" content="@((MarkupString)Site!.Description)" />
+    <meta name="title" content="@Site!.Title" />
+    <meta name="description" content="@Site!.Description" />
     @if (Theme!.Stylesheets is not null)
     {
         foreach (var css in Theme!.Stylesheets)
