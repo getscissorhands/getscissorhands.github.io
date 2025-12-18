@@ -1,8 +1,26 @@
 ---
-title: About Us
+title: About ScissorHands.NET
 slug: about
 description: |
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  What is ScissorHands.NET?
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consequat porttitor ullamcorper. Nullam sed fringilla ex, non condimentum nibh. Vestibulum sit amet urna sed sem viverra dignissim vel quis purus. Pellentesque nec urna nec dolor feugiat ullamcorper. Cras luctus vel neque eget commodo. Nulla aliquam felis nulla, vitae rutrum lacus bibendum in. Nulla id est dui. Quisque tempus erat tortor, non tempor turpis scelerisque sed. Nam id posuere felis. Cras fermentum tristique dui, a lobortis odio ornare vitae.
+ScissorHands.NET is a static site generator based on [Blazor](https://blazor.net).
+
+## Why ScissorHands.NET?
+
+There are many static site generators written in many different languages, but it's rare to find one in .NET.
+
+Blazor uses the razor template engine to generate HTML pages. By using this capability, ScissorHands.NET locally generates HTML pages without having to host the app on a server-side.
+
+## Goal
+
+The goal of ScissorHands.NET is simple&mdash;It's easy to use, highly flexible for future extension through plugins, and highly customisable through themes.
+
+## Where to start?
+
+If you're interested in playing around ScissorHands.NET, go to the [Quickstart](/docs/quickstart) page and you'll be able to get your website within a couple of minutes.
+
+## Want to Contribute?
+
+If you'd like to contribute to this project, visit our [GitHub repository](https://github.com/getscissorhands) and take a look what you can contribute.
