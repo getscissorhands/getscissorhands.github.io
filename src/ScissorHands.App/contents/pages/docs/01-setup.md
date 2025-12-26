@@ -22,15 +22,17 @@ Currently ScissorHands.NET can be downloaded only from [GitHub NuGet Package Reg
 
     ```bash
     # zsh/bash
-    export GH_PACKAGE_USERNAME="<GITHUB_USERNAME>"
-    export GH_PACKAGE_TOKEN="<GITHUB_TOKEN>"
+    source ./scripts/setup-gh-auth.sh \
+        --username "<GITHUB_USERNAME>" --token "<GITHUB_TOKEN>"
     ```
 
     ```powershell
     # PowerShell
-    $env:GH_PACKAGE_USERNAME = "<GITHUB_USERNAME>"
-    $env:GH_PACKAGE_TOKEN = "<GITHUB_TOKEN>"
+    . ./scripts/setup-gh-auth.ps1 `
+        -Username "<GITHUB_USERNAME>" -Token "<GITHUB_TOKEN>"
     ```
+
+   > **NOTE**: Make sure to **sourcing** the script instead of executing it.
 
 1. Make sure that you've got a `NuGet.config` file that registers the GitHub NuGet Package Registry for ScissorHands.NET. Here's the example of `NuGet.config`.
 
@@ -38,7 +40,8 @@ Currently ScissorHands.NET can be downloaded only from [GitHub NuGet Package Reg
     <?xml version="1.0" encoding="utf-8"?>
     <configuration>
       <packageSources>
-        <add key="github" value="https://nuget.pkg.github.com/getscissorhands/index.json" />
+        <add key="github"
+             value="https://nuget.pkg.github.com/getscissorhands/index.json" />
       </packageSources>
       <packageSourceCredentials>
         <github>

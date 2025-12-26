@@ -5,7 +5,11 @@ description: |
   How to quickly spin-up your website with ScissorHands.NET
 ---
 
-You've [setup the development environment](/docs/setup). Let's quickly build a website using ScissorHands.NET!
+Let's quickly build a website using ScissorHands.NET!
+
+## Prerequisites
+
+- [Development environment setup](/docs/setup)
 
 ## Scaffolding App
 
