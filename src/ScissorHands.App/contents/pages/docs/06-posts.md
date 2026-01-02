@@ -39,6 +39,7 @@ Each blog post consists of two sections &ndash; [front matter](/docs/front-matte
 title: Placeholder
 slug: placeholder
 description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+locale: ko-kr
 author: The ScissorHands
 hero_image: /images/hello-world.png
 published: 2025-12-15

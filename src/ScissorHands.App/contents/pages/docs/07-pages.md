@@ -78,6 +78,10 @@ contents/
 
 Each directory will be published to `/images`, `/videos`, `/audios` respectively.
 
+## 404 page
+
+The `404.html` is a special page shown when a requested URL doesn't exist. When a page markdown document declares its slug of `404.html`, the page content will be rendered in the `404.html` page.
+
 ---
 
 👈 [Posts](/docs/posts) | 👆 [Documentation](/docs) | [Front Matter](/docs/front-matter) 👉

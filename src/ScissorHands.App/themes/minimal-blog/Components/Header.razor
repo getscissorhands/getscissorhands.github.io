@@ -1,4 +1,4 @@
-@namespace ScissorHands.Theme.MinimalBlog.Components.Header
+@namespace ScissorHands.Theme.MinimalBlog.Components
 
 <header class="site-header">
     <div class="site-header inner">
@@ -23,9 +23,15 @@
 </header>
 
 @code {
-    [Parameter]
-    public SiteManifest Site { get; set; } = new();
+    /// <summary>
+    /// Gets or sets the <see cref="SiteManifest"/> instance.
+    /// </summary>
+    [CascadingParameter]
+    public SiteManifest? Site { get; set; }
 
-    [Parameter]
-    public ThemeManifest Theme { get; set; } = new();
+    /// <summary>
+    /// Gets or sets the <see cref="ThemeManifest"/> instance.
+    /// </summary>
+    [CascadingParameter]
+    public ThemeManifest? Theme { get; set; }
 }

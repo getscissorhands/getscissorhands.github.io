@@ -113,11 +113,13 @@ Each plugin has at least the following structure:
 
 Since a plugin component inherits `ScissorHands.Plugin.PluginComponentBase`, it exposes the following properties for plugin developers to use:
 
-- `Documents`: **Parameter**. List of content documents &ndash; used by `IndexView.razor`
-- `Document`: **Parameter**. Content document &ndash; used by `PostView.razor` and `PageView.razor`
-- `Plugins`: **Parameter**. List of plugins defined in the [Plugins section of `appsettings.json`](/docs/plugins#plugin-configuration)
-- `Theme`: **Parameter**. Theme configuration defined in [`theme.json`](/docs/themes#theme.json)
-- `Site`: **Parameter**. Site configuration defined in the [Site section of `appsettings.json`](/docs/configuration#site-configuration)
+- `Name`: **Parameter**. Name of the plugin.
+- `Documents`: **Cascading Parameter**. List of content documents &ndash; used by `IndexView.razor`
+- `Document`: **Cascading Parameter**. Content document &ndash; used by `PostView.razor` and `PageView.razor`
+- `Plugins`: **Cascading Parameter**. List of plugins defined in the [Plugins section of `appsettings.json`](/docs/plugins#plugin-configuration)
+- `Plugin`: Plugin matches to the component, filtered by its name when it's being initialised.
+- `Theme`: **Cascading Parameter**. Theme configuration defined in [`theme.json`](/docs/themes#theme.json)
+- `Site`: **Cascading Parameter**. Site configuration defined in the [Site section of `appsettings.json`](/docs/configuration#site-configuration)
 
 ## Use Plugin
 
@@ -151,30 +153,10 @@ You can add the plugin as a Razor component. Put your plugin component to `MainL
 @* MainLayout.razor *@
 ...
 
-<MyAwesomePluginComponent
-    Documents="@Documents"
-    Document="@Document"
-    Plugin="@MyAwesomePlugin"
-    Theme="@Theme"
-    Site="@Site" />
+<MyAwesomePluginComponent Name="My Awesome Plugin" />
 
 ...
-
-@code {
-    protected PluginManifest MyAwesomePlugin { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-
-        MyAwesomePlugin = Plugins?.SingleOrDefault(p =>
-            p.Name!.Equals("My Awesome ScissorHands Plugin",
-                           StringComparison.OrdinalIgnoreCase));
-    }
-}
 ```
-
-> **NOTE**: `@Documents`, `@Document`, `@Theme` and `@Site` values are passed from the layout components &ndash; `MainLayout.razor`, `IndexView.razor`, `PostView.razor` or `PageView.razor`.
 
 ### Plugin as Placeholder
 

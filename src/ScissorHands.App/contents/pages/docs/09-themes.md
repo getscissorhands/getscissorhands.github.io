@@ -36,7 +36,8 @@ Each theme has at least the following structure:
     ├── MainLayout.razor
     ├── IndexView.razor
     ├── PostView.razor
-    └── PageView.razor
+    ├── PageView.razor
+    └── NotFoundView.razor
 ```
 
 - `README.md`: README document of the theme
@@ -50,6 +51,7 @@ Each theme has at least the following structure:
 - `src/IndexView.razor`: Defines the landing page view layout
 - `src/PostView.razor`: Defines blog post view layout
 - `src/PageView.razor`: Defines page view layout
+- `src/NotFoundView.razor`: Defines 404 (not found) page view layout
 
 ## `theme.json`
 
@@ -91,13 +93,14 @@ Since `MainLayout.razor` inherits `ScissorHands.Theme.MainLayoutBase`, it expose
 
 - `PageTitle`: Calculated page title by [`CalculatePageTitle()`](/docs/themes#calculatepagetitle)
 - `PageDescription`: Calculated page description by [`CalculatePageDescription()`](/docs/themes#calculatepagedescription)
+- `PageLocale`: Calculated page locale by [`CalculatePageLocale()`](/docs/themes#calculatepagelocale)
 - `Documents`: **Parameter**. List of content documents &ndash; used by `IndexView.razor`
 - `Document`: **Parameter**. Content document &ndash; used by `PostView.razor` and `PageView.razor`
 - `Plugins`: **Parameter**. List of plugins defined in the [Plugins section of `appsettings.json`](/docs/plugins#plugin-configuration)
 - `Theme`: **Parameter**. Theme configuration defined in [`theme.json`](/docs/themes#theme.json)
 - `Site`: **Parameter**. Site configuration defined in the [Site section of `appsettings.json`](/docs/configuration#site-configuration)
 
-These properties are passed to `IndexView.razor`, `PostView.razor`, `PageView.razor` and UI components as parameters.
+These properties are passed to `IndexView.razor`, `PostView.razor`, `PageView.razor` and UI components as cascading parameters.
 
 ### Methods for Overriding
 
@@ -134,6 +137,22 @@ protected virtual string CalculatePageDescription()
 }
 ```
 
+#### `CalculatePageLocale()`
+
+```csharp
+protected virtual string CalculatePageLocale()
+{
+    var locale = Site?.Locale ?? string.Empty;
+
+    if (Document is not null && string.IsNullOrWhiteSpace(Document.Metadata.Locale) == false)
+    {
+        locale = Document.Metadata.Locale;
+    }
+
+    return locale.ToLowerInvariant() ?? string.Empty;
+}
+```
+
 ## `IndexView.razor`
 
 `IndexView.razor` describes the landing page view. It also calls other UI components defined in the theme. It MUST declare inheritance of `ScissorHands.Theme.IndexViewBase` by adding `@inherits ScissorHands.Theme.IndexViewBase`.
@@ -142,12 +161,12 @@ protected virtual string CalculatePageDescription()
 
 Since `IndexView.razor` inherits `ScissorHands.Theme.IndexViewBase`, it exposes the following properties for theme developers to use:
 
-- `Documents`: **Parameter**. List of content documents &ndash; used by `IndexView.razor`
-- `Plugins`: **Parameter**. List of plugins defined in the [Plugins section of `appsettings.json`](/docs/plugins#plugins-configuration)
-- `Theme`: **Parameter**. Theme configuration defined in [`theme.json`](#themejson)
-- `Site`: **Parameter**. Site configuration defined in the [Site section of `appsettings.json`](/docs/configuration#site-configuration)
+- `Documents`: **Cascading Parameter**. List of content documents &ndash; used by `IndexView.razor`
+- `Plugins`: **Cascading Parameter**. List of plugins defined in the [Plugins section of `appsettings.json`](/docs/plugins#plugins-configuration)
+- `Theme`: **Cascading Parameter**. Theme configuration defined in [`theme.json`](#themejson)
+- `Site`: **Cascading Parameter**. Site configuration defined in the [Site section of `appsettings.json`](/docs/configuration#site-configuration)
 
-These properties are passed from `MainLayout.razor` as parameters.
+These properties are passed from `MainLayout.razor` as cascading parameters.
 
 ## `PostView.razor`
 
@@ -157,27 +176,88 @@ These properties are passed from `MainLayout.razor` as parameters.
 
 Since `PostView.razor` inherits `ScissorHands.Theme.PostViewBase`, it exposes the following properties for theme developers to use:
 
-- `Document`: **Parameter**. Content document &ndash; used by `PostView.razor`
-- `Plugins`: **Parameter**. List of plugins defined in the [Plugins section of `appsettings.json`](/docs/plugins#plugins-configuration)
-- `Theme`: **Parameter**. Theme configuration defined in [`theme.json`](#themejson)
-- `Site`: **Parameter**. Site configuration defined in the [Site section of `appsettings.json`](/docs/configuration#site-configuration)
+- `Document`: **Cascading Parameter**. Content document &ndash; used by `PostView.razor`
+- `Plugins`: **Cascading Parameter**. List of plugins defined in the [Plugins section of `appsettings.json`](/docs/plugins#plugins-configuration)
+- `Theme`: **Cascading Parameter**. Theme configuration defined in [`theme.json`](#themejson)
+- `Site`: **Cascading Parameter**. Site configuration defined in the [Site section of `appsettings.json`](/docs/configuration#site-configuration)
 
-These properties are passed from `MainLayout.razor` as parameters.
+These properties are passed from `MainLayout.razor` as cascading parameters.
 
 ## `PageView.razor`
 
-`PageView.razor` describes the blog post view. It also calls other UI components defined in the theme. It MUST declare inheritance of `ScissorHands.Theme.PageViewBase` by adding `@inherits ScissorHands.Theme.PageViewBase`.
+`PageView.razor` describes the page view. It also calls other UI components defined in the theme. It MUST declare inheritance of `ScissorHands.Theme.PageViewBase` by adding `@inherits ScissorHands.Theme.PageViewBase`.
 
 ### Properties of `PageView.razor`
 
 Since `PageView.razor` inherits `ScissorHands.Theme.PageViewBase`, it exposes the following properties for theme developers to use:
 
-- `Document`: **Parameter**. Content document &ndash; used by `PageView.razor`
-- `Plugins`: **Parameter**. List of plugins defined in the [Plugins section of `appsettings.json`](/docs/plugins#plugins-configuration)
-- `Theme`: **Parameter**. Theme configuration defined in [`theme.json`](#themejson)
-- `Site`: **Parameter**. Site configuration defined in the [Site section of `appsettings.json`](/docs/configuration#site-configuration)
+- `Document`: **Cascading Parameter**. Content document &ndash; used by `PageView.razor`
+- `Plugins`: **Cascading Parameter**. List of plugins defined in the [Plugins section of `appsettings.json`](/docs/plugins#plugins-configuration)
+- `Theme`: **Cascading Parameter**. Theme configuration defined in [`theme.json`](#themejson)
+- `Site`: **Cascading Parameter**. Site configuration defined in the [Site section of `appsettings.json`](/docs/configuration#site-configuration)
 
-These properties are passed from `MainLayout.razor` as parameters.
+These properties are passed from `MainLayout.razor` as cascading parameters.
+
+## `NotFoundView.razor`
+
+`NotFoundView.razor` describes the 404 page view. It also calls other UI components defined in the theme. It MUST declare inheritance of `ScissorHands.Theme.NotFoundViewBase` by adding `@inherits ScissorHands.Theme.NotFoundViewBase`.
+
+### Properties of `NotFoundView.razor`
+
+Since `NotFoundView.razor` inherits `ScissorHands.Theme.NotFoundViewBase`, it exposes the following properties for theme developers to use:
+
+- `Document`: **Cascading Parameter**. Content document &ndash; used by `NotFoundView.razor`
+- `Plugins`: **Cascading Parameter**. List of plugins defined in the [Plugins section of `appsettings.json`](/docs/plugins#plugins-configuration)
+- `Theme`: **Cascading Parameter**. Theme configuration defined in [`theme.json`](#themejson)
+- `Site`: **Cascading Parameter**. Site configuration defined in the [Site section of `appsettings.json`](/docs/configuration#site-configuration)
+
+These properties are passed from `MainLayout.razor` as cascading parameters.
+
+## Additional UI Components
+
+In addition to the mandatory page layout components &ndash; `MainLayout`, `IndexView`, `PostView`, `PageView` and `NotFoundView`, you can add as many UI component as you want. Here's a very simple component you can write up:
+
+```razor
+@* Component: `AdditionalComponent.razor` *@
+@namespace MyAwesomeTheme.Components
+<div class="@CssClass">
+  <p>This is an additional component.</p>
+</div>
+
+@code {
+    [Parameter]
+    public string? CssClass { get; set; }
+
+    [CascadingParameter]
+    public IEnumerable<ContentDocument>? Documents { get; set; }
+
+    [CascadingParameter]
+    public ContentDocument? Document { get; set; }
+
+    [CascadingParameter]
+    public IEnumerable<PluginManifest>? Plugins { get; set; }
+
+    [CascadingParameter]
+    public ThemeManifest? Theme { get; set; }
+
+    [CascadingParameter]
+    public SiteManifest? Site { get; set; }
+}
+```
+
+Then, place this component wherever you like. Make sure that `Documents`, `Document`, `Plugins`, `Theme` and `Site` properties are cascading parameters. Therefore, you only need to pass `CssClass` value in this example. Here's an example of using this component in `IndexView.razor`:
+
+```razor
+@* View: `IndexView.razor` *@
+@inherits ScissorHands.Theme.IndexViewBase
+@layout MainLayout
+
+<section class="home">
+    <AdditionalComponent CssClass="additional-component" />
+    ...
+</section>
+
+```
 
 ## List of Themes
 

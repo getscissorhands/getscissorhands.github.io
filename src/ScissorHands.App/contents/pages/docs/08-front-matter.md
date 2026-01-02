@@ -15,6 +15,7 @@ Here are properties of front matter used in ScissorHands.NET.
 title: My Awesome Post
 description: Did you know my awesome blog post?
 slug: my-awesome-post
+locale: ko-kr
 author: Scissor Hands
 twitter_handle: @scissor_hands
 hero_image: /images/hello-world.png
@@ -28,6 +29,7 @@ tags:
 - `title`: The title of the blog post or page.
 - `description`: The description of the blog post or page.
 - `slug`: The slug of the blog post or page, which will be part of the page URL. You can use any format like `PascalCased`, `camelCased`, `snake_cased` or `kebab-cased`, but `kebab-cased` is recommended to avoid any confusion.
+- `locale`: The locale of the content for individual blog post or page. It can be either combination of language code ([ISO 639](https://www.iso.org/iso-639-language-code)) and country code ([ISO 3166](https://www.iso.org/iso-3166-country-codes.html)), or language code only. When it's declared, it takes higher priority than the site options.
 - `author`: The author of the blog post. The default site author will be used if it's omitted.
 - `twitter_handle`: The Twitter handle of the author. It won't be appearing if it's omitted.
 - `hero_image`: The hero image of the blog post or page. The default hero image will be used if it's omitted.

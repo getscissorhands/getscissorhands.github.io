@@ -21,7 +21,8 @@ Open `appsettings.json` file and configure the `Site` section. Here's the defaul
     "Theme": "default",
     "BaseUrl": "/",
     "HeroImage": "https://raw.githubusercontent.com/getscissorhands/Scissorhands.NET/refs/heads/vnext/assets/hero.jpg",
-    "IncludeDateInPostUrl": false,
+    "UseLocaleInUrl": false,
+    "UseDateInPostUrl": false,
     "Debug": false
   }
 }
@@ -34,7 +35,8 @@ Open `appsettings.json` file and configure the `Site` section. Here's the defaul
 - `Theme`: The theme directory.
 - `BaseUrl`: The base URL of this app. It's particularly useful for GitHub Pages scenario.
 - `HeroImage`: Default hero image consumed by Open Graph meta tags.
-- `IncludeDateInPostUrl`: Value indicating whether to include the date in the post URL segment like `/yyyy/mm/dd/my-awesome-blog-post`.
+- `UseLocaleInUrl`: Value indicating whether to use locale in the URL segment like `/en-us/my-awesome-page`.
+- `UseDateInPostUrl`: Value indicating whether to include the date in the post URL segment like `/yyyy/mm/dd/my-awesome-blog-post`.
 - `Debug`: Value indicating whether to show debug message in the console while previewing.
 
 ## Plugin Configuration

@@ -31,10 +31,10 @@ Let's quickly build a website using ScissorHands.NET!
 
     ```csharp
     using ScissorHands.Web;
-    
-    var app = await new ScissorHandsApplication<MainLayout, IndexView, PostView, PageView>(args)
-                        .VerifyCommandArguments()
-                        .BuildAsync();
+
+    var app = new ScissorHandsApplicationBuilder(args)
+                  .AddLayouts<MainLayout, IndexView, PostView, PageView, NotFoundView>()
+                  .Build();
     await app.RunAsync();
     ```
 
@@ -116,6 +116,113 @@ Congratulations! You've just run your first ScissorHands.NET app!
 1. Click the blog post title, `Hello, world`. Then you'll be able to see the blog post content.
 
    ![Screenshot of blog post content](/images/quickstart-03.jpg)
+
+1. For more details about writing blog posts, see the [Posts](/docs/posts) page.
+
+## Adding Theme
+
+ScissorHands.NET supports the [theme feature](/docs/themes) that makes your web app more user friendly. You can use any [official and community-contributed themes](/docs/themes#list-of-themes) available. Let's use the [Minimal Blog](https://github.com/getscissorhands/minimal-blog) theme for now.
+
+1. Create a `themes` directory within your app.
+
+    ```bash
+    # zsh/bash
+    mkdir -p ./MyScissorHandsApp/themes
+    ```
+
+    ```powershell
+    # PowerShell
+    New-Item -ItemType Directory -Path ./MyScissorHandsApp/themes -Force
+    ```
+
+1. Clone the theme repository under the `themes` directory.
+
+    ```bash
+    pushd ./MyScissorHandsApp/themes
+    git clone https://github.com/getscissorhands/minimal-blog.git
+    popd
+    ```
+
+   Alternatively, download the theme file directly from the repository and unzip under the `themes` directory.
+
+    ```bash
+    # zsh/bash
+    version=$(curl -s https://api.github.com/repos/getscissorhands/minimal-blog/releases/latest | jq -r '.tag_name')
+    zipfile="minimal-blog-$version.zip"
+    curl -OL https://github.com/getscissorhands/minimal-blog/releases/download/$version/$zipfile
+    unzip $zipfile -d ./MyScissorHandsApp/themes/minimal-blog
+    ```
+
+    ```powershell
+    # PowerShell
+    $version = (Invoke-RestMethod -Uri "https://api.github.com/repos/getscissorhands/minimal-blog/releases/latest").tag_name
+    $zipfile = "minimal-blog-$version.zip"
+    Invoke-WebRequest -Uri "https://github.com/getscissorhands/minimal-blog/releases/download/$version/$zipfile" -OutFile $zipfile
+    Expand-Archive -Path $zipfile -DestinationPath "./MyScissorHandsApp/themes/minimal-blog" -Force
+    ```
+
+1. Add the `Site` section in `appsettings.json` and declare the theme directory.
+
+    ```jsonc
+    {
+      "Site": {
+        "Theme": "minimal-blog"
+      }
+    }
+    ```
+
+1. Run the app again.
+
+    ```bash
+    dotnet run --project ./MyScissorHandsApp -- --preview
+    ```
+
+1. You'll see the app with the theme applied!
+1. For more details about themes, see the [Themes](/docs/themes) page.
+
+## Adding Plugins
+
+ScissorHands.NET supports the [plugin feature](/docs/plugins) that makes your web app more flexible and extensible. You can use any [official and community-contributed plugins](/docs/plugins#list-of-plugins) available. Let's use the [Google Analytics](https://github.com/getscissorhands/plugins/tree/main/src/ScissorHands.Plugin.GoogleAnalytics) plugin for now.
+
+1. Update the `Plugins` section in `appsettings.json` and declare the Google Analytics plugin. You can acquire the `MeasurementId` value from the [Google Analytics](https://analytics.google.com) dashboard.
+
+    ```jsonc
+    {
+      "Plugins": [
+        {
+          "Name": "Google Analytics",
+          "Options": {
+            "MeasurementId": "G-XXXXXXXX"
+          }
+        }
+      ]
+    }
+    ```
+
+1. Add a NuGet package.
+
+    ```bash
+    dotnet add ./MyScissorHandsApp package ScissorHands.Plugin.GoogleAnalytics --prerelease
+    ```
+
+1. Open the `MainLayout.razor` file of your theme and add the `GoogleAnalyticsCompoment` component right after the `<head>` tag.
+
+    ```razor
+    <head>
+      <GoogleAnalyticsComponent Name="Google Analytics" />
+      ...
+    </head>
+    ```
+
+1. Run the app again
+
+    ```bash
+    dotnet run --project ./MyScissorHandsApp -- --preview
+    ```
+
+1. Open the HTML view page.
+1. You'll see the app with the Google Analytics script applied!
+1. For more details about plugins, see the [Plugins](/docs/plugins) page.
 
 Congratulations! You've just added your first blog post to ScissorHands.NET!
 
