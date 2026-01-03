@@ -35,6 +35,13 @@ jobs:
       with:
         dotnet-version: '10.x'
   
+    - name: Update Site URL
+      shell: pwsh
+      run: |
+        $appSettings = Get-Content -Path ./src/ScissorHands.App/appsettings.json | ConvertFrom-Json
+        $appSettings.Site.SiteUrl = "https://getscissorhands.app"
+        $appSettings | ConvertTo-Json -Depth 100 | Set-Content -Path ./src/ScissorHands.App/appsettings.json
+  
     - name: Update Google Analytics ID
       shell: pwsh
       run: |
